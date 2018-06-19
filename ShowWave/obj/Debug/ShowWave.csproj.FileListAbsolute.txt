@@ -1,0 +1,15 @@
+F:\speechocean\code\ShowWave\ShowWave\bin\Debug\ShowWave.exe.config
+F:\speechocean\code\ShowWave\ShowWave\bin\Debug\ShowWave.exe
+F:\speechocean\code\ShowWave\ShowWave\bin\Debug\ShowWave.pdb
+F:\speechocean\code\ShowWave\ShowWave\obj\Debug\ShowWave.Form1.resources
+F:\speechocean\code\ShowWave\ShowWave\obj\Debug\ShowWave.Properties.Resources.resources
+F:\speechocean\code\ShowWave\ShowWave\obj\Debug\ShowWave.csproj.GenerateResource.cache
+F:\speechocean\code\ShowWave\ShowWave\obj\Debug\ShowWave.csproj.CoreCompileInputs.cache
+F:\speechocean\code\ShowWave\ShowWave\obj\Debug\ShowWave.exe
+F:\speechocean\code\ShowWave\ShowWave\obj\Debug\ShowWave.pdb
+F:\speechocean\code\ShowWave\ShowWave\bin\Debug\Interop.WMPLib.dll
+F:\speechocean\code\ShowWave\ShowWave\bin\Debug\AxInterop.WMPLib.dll
+F:\speechocean\code\ShowWave\ShowWave\obj\Debug\Interop.WMPLib.dll
+F:\speechocean\code\ShowWave\ShowWave\obj\Debug\AxInterop.WMPLib.dll
+F:\speechocean\code\ShowWave\ShowWave\obj\Debug\ShowWave.csproj.ResolveComReference.cache
+F:\speechocean\code\ShowWave\ShowWave\obj\Debug\ShowWave.csprojAssemblyReference.cache
