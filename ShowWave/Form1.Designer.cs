@@ -34,15 +34,11 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.pbLocate = new System.Windows.Forms.PictureBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.btReload = new System.Windows.Forms.Button();
             this.cbWave = new System.Windows.Forms.CheckBox();
             this.btPlay = new System.Windows.Forms.Button();
+            this.rtbInfo = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbScreen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLocate)).BeginInit();
             this.SuspendLayout();
@@ -108,27 +104,6 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(353, 12);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(113, 21);
-            this.textBox1.TabIndex = 6;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(353, 43);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(113, 21);
-            this.textBox2.TabIndex = 7;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(353, 70);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 21);
-            this.textBox3.TabIndex = 8;
-            // 
             // pbLocate
             // 
             this.pbLocate.BackColor = System.Drawing.SystemColors.ActiveCaption;
@@ -141,23 +116,9 @@
             this.pbLocate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbLocate_MouseMove);
             this.pbLocate.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbLocate_MouseUp);
             // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(487, 14);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 21);
-            this.textBox4.TabIndex = 10;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(593, 12);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 21);
-            this.textBox5.TabIndex = 11;
-            // 
             // btReload
             // 
-            this.btReload.Location = new System.Drawing.Point(12, 41);
+            this.btReload.Location = new System.Drawing.Point(354, 41);
             this.btReload.Name = "btReload";
             this.btReload.Size = new System.Drawing.Size(75, 23);
             this.btReload.TabIndex = 12;
@@ -170,15 +131,15 @@
             this.cbWave.AutoSize = true;
             this.cbWave.Location = new System.Drawing.Point(12, 82);
             this.cbWave.Name = "cbWave";
-            this.cbWave.Size = new System.Drawing.Size(78, 16);
+            this.cbWave.Size = new System.Drawing.Size(72, 16);
             this.cbWave.TabIndex = 13;
-            this.cbWave.Text = "checkBox1";
+            this.cbWave.Text = "显示模式";
             this.cbWave.UseVisualStyleBackColor = true;
             this.cbWave.CheckedChanged += new System.EventHandler(this.cbWave_CheckedChanged);
             // 
             // btPlay
             // 
-            this.btPlay.Location = new System.Drawing.Point(137, 70);
+            this.btPlay.Location = new System.Drawing.Point(354, 12);
             this.btPlay.Name = "btPlay";
             this.btPlay.Size = new System.Drawing.Size(75, 23);
             this.btPlay.TabIndex = 14;
@@ -186,20 +147,24 @@
             this.btPlay.UseVisualStyleBackColor = true;
             this.btPlay.Click += new System.EventHandler(this.btPlay_Click);
             // 
+            // rtbInfo
+            // 
+            this.rtbInfo.Location = new System.Drawing.Point(465, 14);
+            this.rtbInfo.Name = "rtbInfo";
+            this.rtbInfo.Size = new System.Drawing.Size(292, 84);
+            this.rtbInfo.TabIndex = 15;
+            this.rtbInfo.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(769, 444);
+            this.Controls.Add(this.rtbInfo);
             this.Controls.Add(this.btPlay);
             this.Controls.Add(this.cbWave);
             this.Controls.Add(this.btReload);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.pbLocate);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -225,15 +190,11 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.PictureBox pbLocate;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Button btReload;
         private System.Windows.Forms.CheckBox cbWave;
         private System.Windows.Forms.Button btPlay;
+        private System.Windows.Forms.RichTextBox rtbInfo;
     }
 }
 

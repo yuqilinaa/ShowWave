@@ -19,11 +19,14 @@ namespace ShowWave
         private int begin;
         private int finish;
         private int hPro = 1;
-        private int wPro = 0;
         private int offset = 0;
         private bool offlag = false;
         private bool loadflag = false;
-
+        private int heiPro = 0;
+        private int widPro = 0;
+        private Bitmap mapScreen;
+        private Bitmap mapLocate;
+        private int sampleMax;
         public Form1()
         {
             InitializeComponent();
@@ -40,8 +43,10 @@ namespace ShowWave
 
                 if (wavFile.LoadFlag == true)
                 {
+                    sampleMax = wavFile.WavSamples.Max();
                     hPro = 1;
-                    wPro = 0;
+                    heiPro = sampleMax / pbScreen.Height;
+                    widPro = wavFile.BlockNum / pbScreen.Width;
                     offlag = false;
                     loadflag = true;
                     offset = 0;
@@ -56,19 +61,17 @@ namespace ShowWave
 
         private void ShowWave()
         {
-            pbScreen.Refresh();
-            pbLocate.Refresh();
-            Pen p = new Pen(Color.Black, 1);
-            Graphics g = pbScreen.CreateGraphics();
-            Graphics pl = pbLocate.CreateGraphics();
-            int heiPro = (wavFile.WavSamples.Max() / pbScreen.Height) * hPro;
-            int widPro = (wavFile.BlockNum / pbScreen.Width) + wPro;
-            if (widPro < 1)
-            {
-                widPro = 1;
-                wPro += 10;
-            }
+            Pen penBlack = new Pen(Color.Black, 1);
+            Pen penGold = new Pen(Color.Gold, 2);
+            mapScreen = new Bitmap(pbScreen.Width, pbScreen.Height);
+            mapLocate = new Bitmap(pbLocate.Width, pbLocate.Height);
+            Graphics gScreenBm = Graphics.FromImage(mapScreen);
+            Graphics gLocateBm = Graphics.FromImage(mapLocate);
+            gScreenBm.FillRectangle(new SolidBrush(pbScreen.BackColor), 0, 0, pbScreen.Width, pbScreen.Height);
+            gLocateBm.FillRectangle(new SolidBrush(pbLocate.BackColor), 0, 0, pbLocate.Width, pbLocate.Height);
 
+            heiPro = (sampleMax / pbScreen.Height) * hPro;
+            
             if (offlag)
                 offlag = false;
             else if (offset < 0)
@@ -80,23 +83,27 @@ namespace ShowWave
                     offset = 0;
 
             float timenow = offset * (float)widPro / wavFile.Sample;
-            textBox1.Text = "offset:" + offset.ToString();
-            textBox2.Text = "widPro:" + widPro.ToString();
-            textBox3.Text = "heiPro:" + heiPro.ToString();
-            textBox4.Text = "SampleNum:" + wavFile.SampleNum;
-            textBox5.Text = wavFile.NotDefinition.ToString();
+            rtbInfo.Text = string.Empty;
+            rtbInfo.AppendText("offset:" + offset.ToString() + "\n");
+            rtbInfo.AppendText("widPro:" + widPro.ToString() + "\n");
+            rtbInfo.AppendText("heiPro:" + heiPro.ToString() + "\n");
+            rtbInfo.AppendText("SampleNum:" + wavFile.SampleNum + "\n");
+            rtbInfo.AppendText("NotDefinition:"+wavFile.NotDefinition.ToString() + "\n");
 
-            pl.FillRectangle(Brushes.Gold, (pbScreen.Width * offset * widPro) / wavFile.BlockNum, 0, pbScreen.Width * pbScreen.Width / (wavFile.BlockNum / widPro), pbLocate.Height);
-            pl.DrawString("0", DefaultFont, Brushes.Black, 0, 0);
-            pl.DrawString(wavFile.SoundLength.ToString("0.000"), DefaultFont, Brushes.Black, pbLocate.Width - 35, 0);
-            pl.DrawString(timenow.ToString("0.000"), DefaultFont, Brushes.Black, (pbScreen.Width * offset * widPro) / wavFile.BlockNum, 0);
-            g.DrawLine(new Pen(Color.Gold, 2), 0, pbScreen.Height, pbScreen.Right, pbScreen.Height);
-            g.DrawLine(new Pen(Color.Gold, 2), 0, 0, 0, pbScreen.Height);
+            gLocateBm.FillRectangle(Brushes.Gold, (pbScreen.Width * offset * widPro) / wavFile.BlockNum, 0,
+                pbScreen.Width * pbScreen.Width / (wavFile.BlockNum / widPro), pbLocate.Height);
+            gLocateBm.DrawString("0", DefaultFont, Brushes.Black, 0, 0);
+            gLocateBm.DrawString(wavFile.SoundLength.ToString("0.000"), DefaultFont, Brushes.Black, pbLocate.Width - 35, 0);
+            gLocateBm.DrawString(timenow.ToString("0.000"), DefaultFont, Brushes.Black,
+                (pbScreen.Width * offset * widPro) / wavFile.BlockNum, 0);
+            gScreenBm.DrawLine(penGold, 0, pbScreen.Height, pbScreen.Right, pbScreen.Height);
+            gScreenBm.DrawLine(penGold, 0, 0, 0, pbScreen.Height);
 
             Point last = new Point(0, pbScreen.Height / 2);
             Point now = new Point(0, pbScreen.Height / 2);
             int[] tempSamples = new int[widPro];
             int scrSamNum = (offset + pbScreen.Width) * widPro;
+
             for (int i = offset * widPro; (i < scrSamNum) && (i < wavFile.BlockNum);)
             {
                 if ((i + widPro) > wavFile.BlockNum)
@@ -106,9 +113,11 @@ namespace ShowWave
                 {
                     tempSamples[x] = wavFile.WavSamples[i + x];
                     if ((i + x) % (wavFile.Sample / 10) == 0)
-                        g.DrawLine(new Pen(Color.Gold, 1), (i + x) / widPro - offset, pbScreen.Height - 4, (i + x) / widPro - offset, pbScreen.Height);//画刻度
+                        gScreenBm.DrawLine(penGold, (i + x) / widPro - offset, pbScreen.Height - 4,
+                            (i + x) / widPro - offset, pbScreen.Height);//画刻度
                     if ((i + x) % (wavFile.Sample) == 0)
-                        g.DrawString(((i + x) / (wavFile.Sample)).ToString(), DefaultFont, Brushes.Gold, new Point((i + x) / widPro + 2 - offset, pbScreen.Height - 15));//秒数
+                        gScreenBm.DrawString(((i + x) / (wavFile.Sample)).ToString(), DefaultFont, 
+                            Brushes.Gold, new Point((i + x) / widPro + 2 - offset, pbScreen.Height - 15));//秒数
                 }//取出当前需要操作的采样点
                 int sum = tempSamples.Sum();
                 int min = tempSamples.Min();
@@ -117,17 +126,30 @@ namespace ShowWave
                 {
                     Point start = new Point(i / widPro - offset, (pbScreen.Height / 2 - max / heiPro));
                     Point end = new Point(i / widPro - offset, (pbScreen.Height / 2 - min / heiPro));
-                    g.DrawLine(p, start, end);
+                    gScreenBm.DrawLine(penBlack, start, end);
                 }
                 else
                 {
-                    now = new Point(i / widPro - offset, (pbScreen.Height / 2 - sum / widPro / heiPro));
-                    g.DrawLine(p, last, now);
+                    now.X = i / widPro - offset;
+                    now.Y = pbScreen.Height / 2 - sum / widPro / heiPro;
+                    gScreenBm.DrawLine(penBlack, last, now);
                     last = now;
                 }
                 i += tempLen;
             }
+
+            Graphics gScreen = pbScreen.CreateGraphics();
+            Graphics gLocate = pbLocate.CreateGraphics();
+            gScreen.DrawImage(mapScreen, 0, 0);
+            gLocate.DrawImage(mapLocate, 0, 0);
+            mapScreen.Dispose();
+            mapScreen = null;
+            mapLocate.Dispose();
+            mapLocate = null;
+
         }
+
+
         //调整高度
         private void button1_Click(object sender, EventArgs e)
         {
@@ -155,19 +177,24 @@ namespace ShowWave
         {
             if (loadflag)
             {
-                wPro -= 10;
-                ShowWave();
+                if (widPro > 10)
+                {
+                    widPro -= 10;
+                    ShowWave();
+                }
+                else if(widPro>1)
+                {
+                    widPro -= 1;
+                    ShowWave();
+                }
             }
         }
         private void button4_Click(object sender, EventArgs e)
         {
             if (loadflag)
             {
-                //if (wPro < 0)
-                //{
-                wPro += 10;
+                widPro += 1;
                 ShowWave();
-                //}
             }
         }
         //鼠标拖动
@@ -193,7 +220,7 @@ namespace ShowWave
             if (loadflag)
             {
                 hPro = 1;
-                wPro = 0;
+                widPro = wavFile.BlockNum / pbScreen.Width;
                 offlag = true;
 
                 ShowWave();
@@ -223,11 +250,13 @@ namespace ShowWave
             player.Play();
         }
         // 拖动信息条
+        private bool moveflag = false;
         private void pbLocate_MouseDown(object sender, MouseEventArgs e)
         {
             // e.X 在框里
-            if (loadflag && (e.X >= (pbScreen.Width * offset * ((wavFile.BlockNum / pbScreen.Width) + wPro)) / wavFile.BlockNum) && e.X <= ((pbScreen.Width * offset * ((wavFile.BlockNum / pbScreen.Width) + wPro))) / wavFile.BlockNum + pbScreen.Width * pbScreen.Width / (wavFile.BlockNum / ((wavFile.BlockNum / pbScreen.Width) + wPro)))
+            if (loadflag && (e.X >= (pbScreen.Width * offset * widPro) / wavFile.BlockNum) && e.X <= ((pbScreen.Width * offset * widPro)) / wavFile.BlockNum + pbScreen.Width * pbScreen.Width / (wavFile.BlockNum / widPro))
             {
+
                 begin = e.X;
             }
         }
@@ -236,7 +265,7 @@ namespace ShowWave
             if (loadflag)
             {
                 finish = e.X;
-                float bili = (wavFile.BlockNum / ((wavFile.BlockNum / pbScreen.Width) + wPro)) / pbScreen.Width;
+                float bili = (wavFile.BlockNum / widPro) / pbScreen.Width;
                 offset += Convert.ToInt32((finish - begin) * bili);
                 ShowWave();
             }
